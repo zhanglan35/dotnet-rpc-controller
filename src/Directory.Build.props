@@ -1,0 +1,17 @@
+<Project>
+
+  <Import Project="..\Directory.Build.props" />
+
+  <PropertyGroup>
+    <IsPackable>True</IsPackable>
+    <OutputType>Library</OutputType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!-- Auto push into nuget.org -->
+  <Target Condition="$(IsPackable)" Name="PushPackage" AfterTargets="Pack">
+    <Exec Command="dotnet nuget push $(MSBuildProjectDirectory)\bin\$(Configuration)\$(AssemblyName).$(Version).nupkg -s $(NugetPackageSource) -k api" />
+  </Target>
+
+</Project>

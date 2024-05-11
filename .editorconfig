@@ -1,0 +1,29 @@
+# Schema: http://EditorConfig.org
+# Docs: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
+
+# top-most EditorConfig file
+root = true
+
+# Default
+[*]
+end_of_line = lf
+indent_style = space
+trim_trailing_whitespace = true
+guidelines = 140
+max_line_length = 140
+insert_final_newline = true
+
+# Code files
+[*.cs]
+indent_size = 4
+
+# Xml project files
+[*.{csproj,props,targets,xml,config}]
+indent_size = 2
+
+# Json files
+[*.json]
+
+# Shell scripts
+[*.sh]
+indent_size = 2

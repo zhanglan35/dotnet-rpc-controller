@@ -3,7 +3,12 @@ using RpcController.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 var app = default(WebApplication)!; // Workaround fo setup swagger
 
-builder.Services.AddControllers(options => options.Conventions.Add(new RpcServerSideConvention()));
+builder.Services
+    .AddControllers(options =>
+    {
+        options.Conventions.Add(new RpcServerSideConvention());
+    })
+    .AddRpcControllerAsServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {

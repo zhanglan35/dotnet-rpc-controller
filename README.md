@@ -12,22 +12,25 @@ It should be the simplest solution with `ASP.NET Core`:
 ProjectFolder/
 |
 ├── ServiceA/
-|   ├── SampleRpcService.cs    <-- Implement RPC via interface (Server Side)
+|   ├── SampleRpcController.cs    <-- Implement RPC via interface (Server Side)
 |   ├── Program.cs
 |   └── ...
 |
 ├── ServiceA.Shared/
-|   ├── ISampleRpcService.cs   <-- Define RPC Interface (Shared Project)
+|   ├── ISampleRpcService.cs      <-- Define RPC interface (Shared Project)
 |   └── ...
 |
 ├── ServiceB/
-|   ├── AppController.cs       <-- Call RPC via interface (Client Side)
+|   ├── AppController.cs          <-- Call RPC via interface (Client Side)
 |   ├── Program.cs
 |   └── ...
 ```
 
+Just follow the feeling:
+
+- Define a `RPC Interface` with some `Attributes` provided by `ASP.NET Core`
+
 ``` C#
-// Declare RPC interface
 // In ServiceA.Shared/ISampleRpcService.cs
 [HttpRoute("/api/v1/public")]
 public interface ISampleRpcService : IRpcController
@@ -37,10 +40,11 @@ public interface ISampleRpcService : IRpcController
 }
 ```
 
+- Implement the `RPC Interface` in Service A with Controller (Server Side)
+
 ``` C#
-// Implement the RPC interface in Server (ASP.NET Core)
 // In ServiceA/SampleRpcService.cs
-public class SampleRpcService : ISampleRpcService
+public class SampleRpcController : ControllerBase, ISampleRpcService
 {
     public int Add(int a, int b)
     {
@@ -49,9 +53,10 @@ public class SampleRpcService : ISampleRpcService
 }
 ```
 
+- Call the RPC Server via `RPC Interface` in Service B (Client Side)
+
 ``` C#
 // In ServiceB/AppController.cs
-// Import ISampleRpcService as Client interface to call the RPC Server.
 public class AppController
 {
     private readonly ISampleRpcService _sampleRpcService;
@@ -68,18 +73,17 @@ public class AppController
 }
 ```
 
-**Just Enough, Let the Magic Do the Rest**
+The most important thing is to define a `RPC interface` into a shared project that will be shared between ServerSide and ClientSide. The `RPC interface` looks almost like a `Controller` in `ASP.NET Core`, that's why this library called `RpcController`.
 
-Compared to other frameworks (gRPC, Orleans, etc...), this library doesn't bring any new concepts, just follow the feeling:
+Compared to other RPC frameworks (gRPC, Orleans, etc), this library doesn't bring any new concepts.
+The ServerSide can use most of ASP.NET Core features:
 
-- Define a `RPC Interface` with some `Attributes` provided by `ASP.NET Core`
-- Implement the `RPC Interface` in Service B with Controller (Server-Side)
-- Call the RPC Server via `RPC Interface` (Client-Side)
-
-The most important change is to extract the controller defination into an interface of a shared project,
-this interface will be shared between ServerSide and ClientSide.
-
-You can continue to use Controler, Middleware, Swagger and any other ASP.NET Core features in ServerSide.
+    - Controler
+    - Middleware
+    - Exception Handler
+    - Authroize
+    - Swagger Integration
+    - etc
 
 ## Quick Start
 

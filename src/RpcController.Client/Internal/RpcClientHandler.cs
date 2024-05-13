@@ -13,7 +13,7 @@ namespace RpcController.Client;
 /// <summary>
 /// Define all methods to handle a call to a RPC Server
 /// </summary>
-internal interface IRpcClientHandler
+public interface IRpcClientHandler
 {
     ProxyGenerator GetProxyGenerator();
     HttpClient CreateHttpClient<TController>(RpcClientOptions options);

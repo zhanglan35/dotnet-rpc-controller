@@ -24,7 +24,7 @@ public class RpcClient<TController> : IRpcClient<TController>
     private readonly IRpcClientHandler _handler;
     private readonly RpcClientOptions _options;
 
-    internal RpcClient(IRpcClientHandler handler, RpcClientOptions options)
+    public RpcClient(IRpcClientHandler handler, RpcClientOptions options)
     {
         _handler = handler;
         _options = options;

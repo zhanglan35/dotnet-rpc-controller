@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>RpcController.Samples.ClientSide</AssemblyName>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\RpcController.Client\RpcController.Client.csproj" />
+    <ProjectReference Include="..\RpcController.Samples.Shared\RpcController.Samples.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

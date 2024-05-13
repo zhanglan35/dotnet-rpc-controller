@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpcController.Client.Test",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpcController.Samples.ClientSide", "samples\RpcController.Samples.ClientSide\RpcController.Samples.ClientSide.csproj", "{33D02BC7-4090-4FAB-99F8-CF8E48DCF0C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpcController.Samples.ClientSideConsole", "samples\RpcController.Samples.ClientSideConsole\RpcController.Samples.ClientSideConsole.csproj", "{7EF4C568-A36C-475A-8194-8EE7D40C7B44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{33D02BC7-4090-4FAB-99F8-CF8E48DCF0C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33D02BC7-4090-4FAB-99F8-CF8E48DCF0C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33D02BC7-4090-4FAB-99F8-CF8E48DCF0C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF4C568-A36C-475A-8194-8EE7D40C7B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF4C568-A36C-475A-8194-8EE7D40C7B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF4C568-A36C-475A-8194-8EE7D40C7B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF4C568-A36C-475A-8194-8EE7D40C7B44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,5 +89,6 @@ Global
 		{7EDF0108-E31A-47C3-9EAC-6213C7891BD7} = {8051620B-16E1-4DB8-B98C-37A73592ADA5}
 		{DC42E29A-4FFC-4985-8EBE-5C2709BAA0D5} = {8051620B-16E1-4DB8-B98C-37A73592ADA5}
 		{33D02BC7-4090-4FAB-99F8-CF8E48DCF0C2} = {EE856248-E06E-4D6C-A861-B06BEB80EB67}
+		{7EF4C568-A36C-475A-8194-8EE7D40C7B44} = {EE856248-E06E-4D6C-A861-B06BEB80EB67}
 	EndGlobalSection
 EndGlobal

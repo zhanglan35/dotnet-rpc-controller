@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace RpcController.AspNetCore;
 
-public static class RpcControllerSwaggerExtensions
+public static class RpcServerSideSwaggerExtensions
 {
     private struct ControllerInfo
     {

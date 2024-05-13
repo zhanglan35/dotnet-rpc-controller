@@ -13,7 +13,7 @@ namespace RpcController.AspNetCore;
 /// <summary>
 /// Use this convention to register controller from IRpcController.
 /// </summary>
-public class RpcControllerConvention : IApplicationModelConvention
+public class RpcServerSideConvention : IApplicationModelConvention
 {
     static bool IsAssignableTo(Type type, Type toType)
     {

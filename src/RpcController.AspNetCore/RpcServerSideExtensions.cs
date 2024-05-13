@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace RpcController.AspNetCore;
 
-public static class RpcControllerMvcExtensions
+public static class RpcServerSideExtensions
 {
     /// <summary>
     /// Register IRpcController as Dependency Injection

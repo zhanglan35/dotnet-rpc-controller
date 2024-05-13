@@ -104,7 +104,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
 {
-    options.Conventions.Add(new RpcControllerConvention());
+    options.Conventions.Add(new RpcServerSideConvention());
 });
 
 builder.Services.AddSwaggerGen(options =>
@@ -121,7 +121,7 @@ var app = builder.Build();
 app.Run();
 ```
 
-ClientSide setup
+### ClientSide setup
 
 ```C#
 // In ServiceB/Program.cs

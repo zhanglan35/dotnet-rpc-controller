@@ -11,11 +11,11 @@ using RpcController.Samples.Shared;
 
 namespace RpcController.AspNetCore;
 
-public class RpcControllerConventionTest : IClassFixture<ConventionHttpServerFixture>
+public class RpcServerSideConventionTest : IClassFixture<ConventionHttpServerFixture>
 {
     private readonly ConventionHttpServerFixture _fixture;
 
-    public RpcControllerConventionTest(ConventionHttpServerFixture fixture)
+    public RpcServerSideConventionTest(ConventionHttpServerFixture fixture)
     {
         _fixture = fixture;
     }
@@ -248,7 +248,7 @@ public class ConventionHttpServerFixture : IDisposable
 
         builder.WebHost.UseTestServer();
         builder.Services
-            .AddControllers(options => options.Conventions.Add(new RpcControllerConvention()))
+            .AddControllers(options => options.Conventions.Add(new RpcServerSideConvention()))
             .AddApplicationPart(typeof(SampleRpcController).Assembly);
 
         services.AddHttpContextAccessor();

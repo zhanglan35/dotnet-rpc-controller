@@ -5,7 +5,7 @@ using RpcController.Client.Options;
 
 namespace RpcController.AspNetCore;
 
-public static class RpcClientExtensions
+public static class RpcClientSideExtensions
 {
     /// <summary>
     /// Register ControllerClients
@@ -32,6 +32,7 @@ public static class RpcClientExtensions
             foreach (var controller in option.Controllers)
             {
                 var rpcType = controller;
+
                 var rpcClientType = typeof(IRpcClient<>).MakeGenericType(controller);
 
                 services.TryAddSingleton(rpcType, services =>

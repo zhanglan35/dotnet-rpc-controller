@@ -101,7 +101,7 @@ internal class RpcClientInterceptor<TRpcController> : IInterceptor where TRpcCon
         }
         else
         {
-            throw CallResultException.ErrorResponseStatus(response);
+            throw CallResultException.InvalidResponseStatus(response);
         }
     }
 }

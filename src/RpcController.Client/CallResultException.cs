@@ -12,16 +12,16 @@ public class CallResultException : Exception
         Response = response;
     }
 
-    public static CallResultException ErrorResponseStatus(HttpResponseMessage response)
+    public static CallResultException InvalidResponseStatus(HttpResponseMessage response)
     {
-        var msg = string.Format("Error StatusCode: {0}", response.StatusCode);
+        var msg = string.Format("Invalid rpc response status code: {0}", response.StatusCode);
 
         return new CallResultException(msg, response);
     }
 
     public static CallResultException FailToSendRequest(Exception exception)
     {
-        var msg = string.Format("Fail to send RPC request to remote server, error: {0}", exception.Message);
+        var msg = string.Format("Fail to send RPC request, error: {0}", exception.Message);
 
         return new CallResultException(msg, null, exception);
     }

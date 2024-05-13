@@ -5,6 +5,7 @@
   <PropertyGroup>
     <IsPackable>True</IsPackable>
     <OutputType>Library</OutputType>
+    <NugetPackageSource>nuget.org</NugetPackageSource>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>

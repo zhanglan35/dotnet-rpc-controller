@@ -3,6 +3,7 @@
   <Import Project="..\Directory.Build.props" />
 
   <PropertyGroup>
+    <IsPackable>False</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

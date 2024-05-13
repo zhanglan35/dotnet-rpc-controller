@@ -83,19 +83,29 @@ You can continue to use Controler, Middleware, Swagger and any other ASP.NET Cor
 
 ## Quick Start
 
-Install Package
+### Install Package
 
-```
-// Not released yet
+``` shell
+# in Shared project
+dotnet add package RpcController
+
+# in ASP.NET Core project (SerderSide or ClientSide)
+dotnet add package RpcController.AspNetCore
+
+# in other ClientSide project (like Console program)
+dotnet add package RpcController.Client
 ```
 
-ServerSide setup
+### ServerSide setup
 
 ``` C#
 // In ServiceA/Program.cs
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options => options.Conventions.Add(new RpcControllerConvention()));
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new RpcControllerConvention());
+});
 
 builder.Services.AddSwaggerGen(options =>
 {

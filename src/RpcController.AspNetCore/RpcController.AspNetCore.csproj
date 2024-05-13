@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>RpcController.AspNetCore</AssemblyName>
+    <TargetFrameworks>net8.0;net7.0;net6.0;</TargetFrameworks>
+    <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3-*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RpcController\RpcController.csproj" />
+    <ProjectReference Include="..\RpcController.Client\RpcController.Client.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace RpcController.Client.Options;
 
-public class RpcControllerOptions
+public class RpcGroupOptions
 {
     public string? BaseAddress { get; set; }
     public bool ForwardAuthorization { get; set; } = true;

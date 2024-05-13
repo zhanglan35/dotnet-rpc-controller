@@ -2,12 +2,12 @@ namespace RpcController.Client.Options;
 
 public class RpcOptionsBuilder
 {
-    private readonly List<RpcControllerOptions> _options = new();
-    public IReadOnlyCollection<RpcControllerOptions> Options => _options.ToArray();
+    private readonly List<RpcGroupOptions> _options = new();
+    public IReadOnlyCollection<RpcGroupOptions> Options => _options.ToArray();
 
-    public void AddOptions(Action<RpcControllerOptions> configure)
+    public void AddGroup(Action<RpcGroupOptions> configure)
     {
-        var options = new RpcControllerOptions();
+        var options = new RpcGroupOptions();
 
         configure(options);
 

@@ -20,7 +20,7 @@ public class RpcClientOptions
         Hooks = hooks;
     }
 
-    public static RpcClientOptions From(RpcControllerOptions options, List<IRpcClientHook>? hooks = null)
+    public static RpcClientOptions From(RpcGroupOptions options, List<IRpcClientHook>? hooks = null)
     {
         hooks ??= [];
 

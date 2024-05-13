@@ -130,7 +130,7 @@ public static class RpcClientFactoryExtensions
     /// </summary>
     /// <param name="options"></param>
     /// <param name="hooks"></param>
-    public static void UseScopedHooks(this RpcControllerOptions options, params IRpcClientHook[] hooks)
+    public static void UseScopedHooks(this RpcGroupOptions options, params IRpcClientHook[] hooks)
     {
         ScopedHooks.Add(options.GetHashCode(), hooks.ToList());
     }

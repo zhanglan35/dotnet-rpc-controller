@@ -44,7 +44,7 @@ public class SampleRpcService : ISampleRpcService
 {
     public int Add(int a, int b)
     {
-        return a + b
+        return a + b;
     }
 }
 ```
@@ -68,21 +68,26 @@ public class AppController
 }
 ```
 
+**Just Enough, Let the Magic Do the Rest**
+
 Compared to other frameworks (gRPC, Orleans, etc...), this library doesn't bring any new concepts, just follow the feeling:
 
 - Define a `RPC Interface` with some `Attributes` provided by `ASP.NET Core`
 - Implement the `RPC Interface` in Service B with Controller (Server-Side)
 - Call the RPC Server via `RPC Interface` (Client-Side)
 
-**Just Enough, Let the Magic Do the Rest**
+The most important change is to extract the controller defination into an interface of a shared project,
+this interface will be shared between ServerSide and ClientSide.
+
+You can continue to use Controler, Middleware, Swagger and any other ASP.NET Core features in ServerSide.
 
 ## Quick Start
 
 Install Package
 
-``
+```
 // Not released yet
-``
+```
 
 ServerSide setup
 
@@ -115,7 +120,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure RpcClients by options
 builder.Services.UseRpcClients(rpc =>
 {
-    rpc.AddOptions(options =>
+    rpc.AddGroup(options =>
     {
         options.BaseAddress = "http://localhost:5080";
         options.AddRpcControllersFromAssembly<ISampleRpcService>();

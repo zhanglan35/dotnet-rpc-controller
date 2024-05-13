@@ -9,7 +9,7 @@ public static class Program
     {
         var factory = RpcClientFactory.Create(rpc =>
         {
-            rpc.AddOptions(options =>
+            rpc.AddGroup(options =>
             {
                 options.BaseAddress = "http://localhost:5080";
                 options.AddRpcControllersFromAssembly<ISampleRpcService>();

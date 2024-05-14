@@ -9,6 +9,7 @@
 
 - [简介](#简介)
 - [快速开始](#快速开始)
+- [支持的 Attributes](#支持的-attributes)
 - [客户端异常处理](#客户端异常处理)
 - [扩展性](#扩展性)
 
@@ -165,6 +166,12 @@ var app = builder.Build();
 app.Run();
 ```
 
+## 支持的 Attributes
+
+支持绝大多数 `HttpMethod` 和 `BindingSource`，例如: `HttpGet`, `HttpPost`, `FromQuery`, `FormRoute`, `FromBody` 等。
+
+可以参考 [ISampleRpcService.cs](/samples/RpcController.Samples.Shared/ISampleRpcService.cs)
+
 ## 客户端异常处理
 
 如果发生某些错误，如网络故障、数据异常、错误的业务行为等，RPC 客户端将抛出 `CallResultException。`
@@ -212,9 +219,9 @@ app.UseExceptionHandler(appError =>
 
 ## 扩展性
 
-服务器端的行为与 `ASP.NET Core` 基本一致，因此可以继续使用相关特性。
+服务器端的行为与 `ASP.NET Core` 基本一致，可以延用已有的特性进行扩展。
 
-客户端以通过自定义的 `IRpcClientHook` 进行扩展：
+客户端可以实现自定义的 `IRpcClientHook` 进行扩展：
 
 ``` C#
 
@@ -239,7 +246,7 @@ public abstract class MyRpcClientHook : IRpcClientHook
 
 在处理请求和响应时，可以在 `CallContext` 中访问 `HttpRequestMessage` 和 `HttpResponseMessage`。
 
-将已定义的 `IRpcClientHook` 进行注册
+接下来，将已定义的 `IRpcClientHook` 进行注册
 
 ``` C#
 builder.Services.UseRpcClients(rpc =>
@@ -247,7 +254,7 @@ builder.Services.UseRpcClients(rpc =>
     rpc.UseHooks([ new MyRpcClientHook() ])                         // 对全局都生效
     rpc.AddGroup(options =>
     {
-        options.UseScopedScopes([ new MyRpcClientHook[] ]);         // 只对该 Group 生效
+        options.UseScopedScopes([ new MyRpcClientHoo() ]);         // 只对该 Group 生效
         options.BaseAddress = "http://localhost:5080";
         options.AddRpcControllersFromAssembly<ISampleRpcService>();
     });

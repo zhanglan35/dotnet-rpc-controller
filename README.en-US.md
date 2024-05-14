@@ -9,6 +9,7 @@
 
 - [Introduction](#introduction)
 - [Quick Start](#quick-start)
+- [Supported Attributes](#supported-attributes)
 - [Client Side Exception Handler](#client-side-exception-handler)
 - [Extensibility](#extensibility)
 
@@ -164,6 +165,12 @@ var app = builder.Build();
 app.Run();
 ```
 
+## Supported Attributes
+
+Most of `HttpMethod` and `BindingSource` are supported: `HttpGet`, `HttpPost`, `FromQuery`, `FormRoute`, `FromBody`, etc.
+
+You can refer to [ISampleRpcService.cs](/samples/RpcController.Samples.Shared/ISampleRpcService.cs)
+
 ## Client Side Exception Handler
 
 RPC Client will throw `CallResultException` if some error occurs, like the network failure, data issue, invalid business operation...
@@ -246,7 +253,7 @@ builder.Services.UseRpcClients(rpc =>
     rpc.UseHooks([ new MyRpcClientHook() ])                         // For all RPC clients
     rpc.AddGroup(options =>
     {
-        options.UseScopedScopes([ new MyRpcClientHook[] ]);         // For this grouped RPC clients
+        options.UseScopedScopes([ new MyRpcClientHook() ]);         // For this grouped RPC clients
         options.BaseAddress = "http://localhost:5080";
         options.AddRpcControllersFromAssembly<ISampleRpcService>();
     });

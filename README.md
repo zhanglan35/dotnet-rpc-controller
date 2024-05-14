@@ -39,7 +39,7 @@ ProjectFolder/
 |   └── ...
 ```
 
-只需遵循以下步骤:
+只需要参考以下代码进行实现:
 
 - 使用 `ASP.NET Core` 中的 `Attributes` 定义一个 RPC 接口
 
@@ -127,7 +127,7 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.IncludeApplicationXmlComments(); // 根据需要添加 XML 注释
+    options.IncludeRpcControllerXmlComments(); // 根据需要添加 XML 注释
 });
 
 // Configure services ...

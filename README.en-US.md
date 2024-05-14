@@ -126,7 +126,7 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.IncludeApplicationXmlComments(); // Add XML comments as needed
+    options.IncludeRpcControllerXmlComments(); // Add XML comments as needed
 });
 
 // Configure services ...

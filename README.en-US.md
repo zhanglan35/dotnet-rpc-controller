@@ -1,49 +1,49 @@
 <p align="center">
-    <span>中文</span> |
-    <a href="README.en-US.md">English</a>
+    <a href="README.md">中文</a> |
+    <span>English</span>
 </p>
 
 # RpcController
 
-基于 `ASP.NET Core Controller` 的 .NET RPC 框架。
+.NET RPC Framework based on `ASP.NET Core Controller`.
 
-- [简介](#简介)
-- [快速开始](#快速开始)
-- [客户端异常处理](#客户端异常处理)
-- [扩展性](#扩展性)
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [Client Side Exception Handler](#client-side-exception-handler)
+- [Extensibility](#extensibility)
 
-## 简介
+## Introduction
 
-**为什么需要这个 Library**
+**Why need this library**
 
-假设有两个服务 A 和 B，服务 B 需要调用服务 A 的某些 api。
+There are two service A and B, service B needs to call some api of service A.
 
-这应该是基于 `ASP.NET Core` 最简单的解决方案：
+It should be the simplest solution with `ASP.NET Core`:
 
 ```
 ProjectFolder/
 |
 ├── ServiceA/
-|   ├── SampleRpcController.cs    <-- 实现 RPC 接口 (服务端)
+|   ├── SampleRpcController.cs    <-- Implement RPC via interface (Server Side)
 |   ├── Program.cs
 |   └── ...
 |
 ├── ServiceA.Shared/
-|   ├── ISampleRpcService.cs      <-- 定义 RPC 接口 (公共项目)
+|   ├── ISampleRpcService.cs      <-- Define RPC interface (Shared Project)
 |   └── ...
 |
 ├── ServiceB/
-|   ├── AppController.cs          <-- 调用 RPC 接口 (客户端)
+|   ├── AppController.cs          <-- Call RPC via interface (Client Side)
 |   ├── Program.cs
 |   └── ...
 ```
 
-只需遵循以下步骤:
+Just follow the feeling:
 
-- 使用 `ASP.NET Core` 中的 `Attributes` 定义一个 RPC 接口
+- Define a `RPC Interface` with some `Attributes` provided by `ASP.NET Core`
 
 ``` C#
-// ServiceA.Shared/ISampleRpcService.cs
+// In ServiceA.Shared/ISampleRpcService.cs
 [HttpRoute("/api/v1/public")]
 public interface ISampleRpcService : IRpcController
 {
@@ -52,10 +52,10 @@ public interface ISampleRpcService : IRpcController
 }
 ```
 
-- 在服务 A 中用 `Controller` 实现 RPC 接口 (服务器端)
+- Implement the `RPC Interface` in Service A with Controller (Server Side)
 
 ``` C#
-// ServiceA/SampleRpcService.cs
+// In ServiceA/SampleRpcService.cs
 public class SampleRpcController : ControllerBase, ISampleRpcService
 {
     public int Add(int a, int b)
@@ -65,10 +65,10 @@ public class SampleRpcController : ControllerBase, ISampleRpcService
 }
 ```
 
-- 在服务 B 中通过 `RPC 接口` 调用 RPC 服务 (客户端)
+- Call the RPC Server via `RPC Interface` in Service B (Client Side)
 
 ``` C#
-// ServiceB/AppController.cs
+// In ServiceB/AppController.cs
 public class AppController
 {
     private readonly ISampleRpcService _sampleRpcService;
@@ -85,22 +85,21 @@ public class AppController
 }
 ```
 
-最重要的是将 `RPC 接口` 定义在一个公共项目中，这个接口被服务端和客户端项目共同引用。`RPC 接口` 看起来几乎就像是 `ASP.NET Core` 中的 `Controller`，这也是为什么这个库被称为 `RpcController`。
+The most important thing is to define a `RPC interface` into a shared project that will be shared between ServerSide and ClientSide. The `RPC interface` looks almost like a `Controller` in `ASP.NET Core`, that's why this library called `RpcController`.
 
-与其他 RPC 框架（gRPC、Orleans 等）相比，这个库没有引入任何新概念。
-
-服务端可以使用几乎全部 ASP.NET Core 所支持的特性：
+Compared to other RPC frameworks (gRPC, Orleans, etc), this library doesn't bring any new concepts.
+The ServerSide can use most of ASP.NET Core features:
 
     - Controler
     - Middleware
     - Exception Handler
     - Authroize
     - Swagger Integration
-    - ...
+    - etc
 
-## 快速开始
+## Quick Start
 
-### 安装 Nuget 依赖
+### Install Package
 
 ``` shell
 # in Shared project
@@ -113,7 +112,7 @@ dotnet add package RpcController.AspNetCore
 dotnet add package RpcController.Client
 ```
 
-### 服务器配置
+### ServerSide setup
 
 ``` C#
 // In ServiceA/Program.cs
@@ -126,7 +125,7 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.IncludeApplicationXmlComments(); // 根据需要添加 XML 注释
+    options.IncludeApplicationXmlComments(); // Add XML comments as needed
 });
 
 // Configure services ...
@@ -138,13 +137,13 @@ var app = builder.Build();
 app.Run();
 ```
 
-### 客户端配置
+### ClientSide setup
 
 ```C#
-// ServiceB/Program.cs
+// In ServiceB/Program.cs
 var builder = WebApplication.CreateBuilder(args);
 
-// 配置 RpcClients
+// Configure RpcClients by options
 builder.Services.UseRpcClients(rpc =>
 {
     rpc.AddGroup(options =>
@@ -153,7 +152,7 @@ builder.Services.UseRpcClients(rpc =>
         options.AddRpcControllersFromAssembly<ISampleRpcService>();
     });
 
-    // 注册其他 rpc 服务 ...
+    // add other rpc clients ...
 });
 
 // Configure services ...
@@ -165,9 +164,9 @@ var app = builder.Build();
 app.Run();
 ```
 
-## 客户端异常处理
+## Client Side Exception Handler
 
-如果发生某些错误，如网络故障、数据异常、错误的业务行为等，RPC 客户端将抛出 `CallResultException。`
+RPC Client will throw `CallResultException` if some error occurs, like the network failure, data issue, invalid business operation...
 
 ```C#
 
@@ -179,13 +178,13 @@ try
 }
 catch (CallResultException ex)
 {
-    // 处理异常
+    // process exception
 }
 ```
 
-如果 RPC 服务器返回了响应，`CallResultException.Response` 将会提供对应的 `HttpResponseMessage`。
+`CallResultException.Response` will provide `HttpResponseMessage` if RPC Server responds.
 
-在许多情况下，你应该让错误尽可能抛出并使用 `ExceptionHandler` 统一处理：
+In many cases you should let the error throw and use `ExceptionHandler`:
 
 ``` C#
 app.UseExceptionHandler(appError =>
@@ -201,20 +200,20 @@ app.UseExceptionHandler(appError =>
             await context.Response.WriteAsync(callResultError.Response.ReadAsStringAsync());
         }
 
-        // 处理其他错误
+        // any other errors
     });
 });
 
 ```
 
-这样的话，当你有一个复杂的 `调用链`，如 A => B => C => D => E => F，然后 F 抛出错误，
-只要每个服务中都用这个 `ExceptionHandler`，错误将被传播到 A，而无需在服务 BCDE 中进行任何特定处理。
+If you have a complex `call chain` like A => B => C => D => => E => F, and the F throws an error,
+you can use this `ExceltionHandler` in each services, the error will be populated to A without any specific process in service BCDE.
 
-## 扩展性
+## Extensibility
 
-服务器端的行为与 `ASP.NET Core` 基本一致，因此可以继续使用相关特性。
+The extensibility of Server Side follow the same behavior as `ASP.NET Core`, just keep using these features.
 
-客户端以通过自定义的 `IRpcClientHook` 进行扩展：
+If you need to extend ClientSide, you can register your custom `IRpcClientHook`:
 
 ``` C#
 
@@ -237,17 +236,17 @@ public abstract class MyRpcClientHook : IRpcClientHook
 }
 ```
 
-在处理请求和响应时，可以在 `CallContext` 中访问 `HttpRequestMessage` 和 `HttpResponseMessage`。
+`HttpRequestMessage` and `HttpResponseMessage` can be accessed on CallContext when processing request and response.
 
-将已定义的 `IRpcClientHook` 进行注册
+Register the defined `IRpcClientHook`:
 
 ``` C#
 builder.Services.UseRpcClients(rpc =>
 {
-    rpc.UseHooks([ new MyRpcClientHook() ])                         // 对全局都生效
+    rpc.UseHooks([ new MyRpcClientHook() ])                         // For all RPC clients
     rpc.AddGroup(options =>
     {
-        options.UseScopedScopes([ new MyRpcClientHook[] ]);         // 只对该 Group 生效
+        options.UseScopedScopes([ new MyRpcClientHook[] ]);         // For this grouped RPC clients
         options.BaseAddress = "http://localhost:5080";
         options.AddRpcControllersFromAssembly<ISampleRpcService>();
     });

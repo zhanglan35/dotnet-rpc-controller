@@ -151,3 +151,77 @@ var app = builder.Build();
 
 app.Run();
 ```
+
+## Client Side Exception Handler
+
+RPC Client will throw `CallResultException` if some error occurs, like the network failure, data issue, invalid business operation...
+
+```C#
+
+var rpcClient = rpcClientFactory.Get<ISomeRpcService>();
+
+try
+{
+    var result = rpcClient.DoSomething();
+}
+catch (CallResultException ex)
+{
+    // process exception
+}
+```
+
+`CallResultException.Response` will provide `HttpResponseMessage` if RPC Server responds.
+
+In many cases you should let the error throw and use `ExceptionHandler`:
+
+``` C#
+app.UseExceptionHandler(appError =>
+{
+    appError.Run(async context =>
+    {
+        var exceptionHandlerPathFeature =context.Features.Get<IExceptionHandlerPathFeature>();
+
+        if (exceptionHandlerPathFeature?.Error is CallResultException callResultError)
+        {
+            context.Response.StatusCode = (int) callResultError.Response.StatusCode;
+            context.Response.ContentType = callResultError.Response.ContentType;
+            await context.Response.WriteAsync(callResultError.Response.ReadAsStringAsync());
+        }
+
+        // any other errors
+    });
+});
+
+```
+
+If you have a complex `call chain` like A => B => C => D => => E => F, and the F throws an error,
+you can use this `ExceltionHandler` in each services, the error will be populated to A without any specific process in service BCDE.
+
+## Extensibility
+
+The extensibility of Server Side follow the same behavior as `ASP.NET Core`, just keep using these features.
+
+And if you need to extend ClientSide behavior, you can register your custom `IRpcClientHook`:
+
+``` C#
+
+public abstract class MyRpcClientHook : IRpcClientHook
+{
+    public virtual void Configure(HttpClient httpClient)
+    {
+        // before the RPC Client create
+    }
+
+    public virtual void BeforeRequest(CallContext context)
+    {
+        // before the RPC request send
+    }
+
+    public virtual void AfterResponse(CallContext context)
+    {
+        // after the RPC request send
+    }
+}
+```
+
+`HttpRequestMessage` and `HttpResponseMessage` can be accessed on CallContext when processing request and response.

@@ -15,9 +15,9 @@
 
 ## 简介
 
-**为什么需要这个 Library**
+**使用场景**
 
-假设有两个服务 A 和 B，服务 B 需要调用服务 A 的某些 api。
+假设有两个 WebApi 服务 A 和 B，服务 B 需要调用服务 A 的某些 api。
 
 这应该是基于 `ASP.NET Core` 最简单的解决方案：
 
@@ -139,7 +139,7 @@ var app = builder.Build();
 app.Run();
 ```
 
-### 客户端配置
+### 客户端配置 （ASP.NET Core WebAPI）
 
 ```C#
 // ServiceB/Program.cs
@@ -166,11 +166,53 @@ var app = builder.Build();
 app.Run();
 ```
 
+### 客户端配置（命令行程序）
+
+```C#
+
+public static class Program
+{
+    public static void Main()
+    {
+        var factory = RpcClientFactory.Create(rpc =>
+        {
+            rpc.AddGroup(options =>
+            {
+                options.BaseAddress = "http://localhost:5080";
+                options.AddRpcControllersFromAssembly<ISampleRpcService>();
+            });
+        });
+
+        var client = factory.Get<ISampleRpcService>();
+        var result = client.Hello();
+
+        Console.WriteLine(result);
+    }
+}
+```
+
 ## 支持的 Attributes
 
 支持绝大多数 `HttpMethod` 和 `BindingSource`，例如: `HttpGet`, `HttpPost`, `FromQuery`, `FormRoute`, `FromBody` 等。
 
 可以参考 [ISampleRpcService.cs](/samples/RpcController.Samples.Shared/ISampleRpcService.cs)
+
+`IRpcController` 拥有几乎和 `ASP.NET Core` 一致的默认行为，因此可以省略参数绑定的特性:
+
+``` C#
+[HttpRoute("/sample-rpc")]
+public interface ISampleRpcService : IRpcController
+{
+    [HttpGet("{user}")]
+    string FromRoute(string user); // name 将成为 query 参数
+
+    [HttpGet("hello")]
+    string FromQuery(string user); // name 将成为 query 参数
+
+    [HttpPost("from-json-body")]
+    string Hello(User user); // user 将成为 json body 参数
+}
+```
 
 ## 客户端异常处理
 

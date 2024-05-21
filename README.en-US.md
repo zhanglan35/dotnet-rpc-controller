@@ -138,7 +138,7 @@ var app = builder.Build();
 app.Run();
 ```
 
-### ClientSide setup
+### ClientSide setup (ASP.NET Core WebApi)
 
 ```C#
 // In ServiceB/Program.cs
@@ -165,11 +165,53 @@ var app = builder.Build();
 app.Run();
 ```
 
+### ClientSide setup (Console Program)
+
+```C#
+
+public static class Program
+{
+    public static void Main()
+    {
+        var factory = RpcClientFactory.Create(rpc =>
+        {
+            rpc.AddGroup(options =>
+            {
+                options.BaseAddress = "http://localhost:5080";
+                options.AddRpcControllersFromAssembly<ISampleRpcService>();
+            });
+        });
+
+        var client = factory.Get<ISampleRpcService>();
+        var result = client.Hello();
+
+        Console.WriteLine(result);
+    }
+}
+```
+
 ## Supported Attributes
 
 Most of `HttpMethod` and `BindingSource` are supported: `HttpGet`, `HttpPost`, `FromQuery`, `FormRoute`, `FromBody`, etc.
 
 You can refer to [ISampleRpcService.cs](/samples/RpcController.Samples.Shared/ISampleRpcService.cs)
+
+`IRpcController` has same default behaviors as `ASP.NET Core`, you can omit the parameter attribute like:
+
+``` C#
+[HttpRoute("/sample-rpc")]
+public interface ISampleRpcService : IRpcController
+{
+    [HttpGet("{user}")]
+    string FromRoute(string user); // name will be route path parameter
+
+    [HttpGet("hello")]
+    string FromQuery(string user); // name will be query parameter
+
+    [HttpPost("from-json-body")]
+    string Hello(User user); // user will be json body
+}
+```
 
 ## Client Side Exception Handler
 

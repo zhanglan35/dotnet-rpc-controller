@@ -9,7 +9,8 @@ public class RpcGroupOptions
     public bool ForwardAuthorization { get; set; } = true;
     public JsonSerializerOptions JsonSerializerOptions { get; set; } = new(JsonSerializerDefaults.Web);
 
-    public Type[] Controllers { get; private set; } = Type.EmptyTypes;
+    private readonly List<Type> _controllers = new();
+    public Type[] Controllers => _controllers.ToArray();
 
     public void AddRpcControllersFromAssembly<T>()
     {
@@ -20,9 +21,11 @@ public class RpcGroupOptions
 
     public void AddRpcControllersFromAssembly(Assembly assembly)
     {
-        Controllers = assembly.GetTypes()
+        var controllers = assembly.GetTypes()
             .Where(type => type.IsInterface && typeof(IRpcController).IsAssignableFrom(type))
             .ToArray();
+
+        _controllers.AddRange(controllers);
     }
 
 }

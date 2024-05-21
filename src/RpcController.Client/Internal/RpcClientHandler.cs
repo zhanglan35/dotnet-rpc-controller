@@ -122,7 +122,7 @@ internal class RpcClientHandler : IRpcClientHandler
         }
     }
 
-    const string JsonContentType = MediaTypeNames.Application.Json;
+    const string JsonContentType = "application/json";
 
     public async Task<T?> GetDataAsync<T>(HttpResponseMessage response)
     {

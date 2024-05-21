@@ -34,7 +34,11 @@ public class RpcClientFactory
 
         foreach (var option in builder.Options)
         {
-            var scopedHooks = RpcClientFactoryExtensions.ScopedHooks.GetValueOrDefault(option.GetHashCode()) ?? [];
+            if (!RpcClientFactoryExtensions.ScopedHooks.TryGetValue(option.GetHashCode(), out var scopedHooks))
+            {
+                scopedHooks = [];
+            }
+
             var rpcClientOptions = RpcClientOptions.From(option, [..hooks, ..scopedHooks]);
 
             foreach (var controller in option.Controllers)

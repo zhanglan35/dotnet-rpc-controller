@@ -1,6 +1,5 @@
 using Castle.DynamicProxy;
 using RpcController.Client.Core;
-using RpcController.Client.Hooks;
 using RpcController.Options;
 
 namespace RpcController.Client;
@@ -45,8 +44,8 @@ public class RpcClientFactory
             {
                 var rpcClientType = typeof(IRpcClient<>).MakeGenericType(controller);
 
-                _rpcDict.Add(controller.MetadataToken, CreateRpc(rpcClientOptions, controller));
-                _rpcClientDict.Add(rpcClientType.MetadataToken, CreateRpcClient(rpcClientOptions, controller));
+                _rpcDict[controller.MetadataToken] = CreateRpc(rpcClientOptions, controller);
+                _rpcClientDict[rpcClientType.MetadataToken] = CreateRpcClient(rpcClientOptions, controller);
             }
         }
     }

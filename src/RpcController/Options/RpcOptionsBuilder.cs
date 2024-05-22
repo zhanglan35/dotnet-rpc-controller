@@ -1,4 +1,4 @@
-namespace RpcController.Client.Options;
+namespace RpcController.Options;
 
 public class RpcOptionsBuilder
 {

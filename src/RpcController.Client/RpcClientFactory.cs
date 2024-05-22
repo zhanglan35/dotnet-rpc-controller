@@ -1,7 +1,7 @@
 using Castle.DynamicProxy;
 using RpcController.Client.Core;
 using RpcController.Client.Hooks;
-using RpcController.Client.Options;
+using RpcController.Options;
 
 namespace RpcController.Client;
 

@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
 
-namespace RpcController.Client.Options;
+namespace RpcController.Options;
 
 public class RpcGroupOptions
 {

@@ -1,5 +1,5 @@
 using RpcController.Client.Hooks;
-using RpcController.Client.Options;
+using RpcController.Options;
 
 namespace RpcController.Client;
 

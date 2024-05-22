@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using RpcController.Client;
-using RpcController.Client.Options;
+using RpcController.Options;
 
 namespace RpcController.AspNetCore;
 

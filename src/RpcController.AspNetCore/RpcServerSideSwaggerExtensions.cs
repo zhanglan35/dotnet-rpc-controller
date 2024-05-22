@@ -121,7 +121,7 @@ public static class RpcServerSideSwaggerExtensions
     /// Use this method to include the application's XML comments in Swagger.
     /// </summary>
     /// <param name="options"></param>
-    public static void IncludeApplicationXmlComments(this SwaggerGenOptions  options)
+    public static void IncludeApplicationXmlComments(this SwaggerGenOptions options)
     {
         var path = Path.Combine(AppContext.BaseDirectory, Assembly.GetEntryAssembly()!.GetName().Name + ".xml");
 

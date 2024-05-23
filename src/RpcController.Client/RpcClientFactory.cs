@@ -7,8 +7,8 @@ namespace RpcController.Client;
 public class RpcClientFactory
 {
     private readonly IRpcClientHandler _clientHandler;
-    private readonly Dictionary<int, object> _rpcDict = new();
-    private readonly Dictionary<int, object> _rpcClientDict = new();
+    private readonly Dictionary<string, object> _rpcDict = new();
+    private readonly Dictionary<string, object> _rpcClientDict = new();
 
     internal RpcClientFactory(IRpcClientHandler clientHandler, RpcOptionsBuilder builder)
     {
@@ -44,8 +44,8 @@ public class RpcClientFactory
             {
                 var rpcClientType = typeof(IRpcClient<>).MakeGenericType(controller);
 
-                _rpcDict[controller.MetadataToken] = CreateRpc(rpcClientOptions, controller);
-                _rpcClientDict[rpcClientType.MetadataToken] = CreateRpcClient(rpcClientOptions, controller);
+                _rpcDict[controller.FullName] = CreateRpc(rpcClientOptions, controller);
+                _rpcClientDict[rpcClientType.FullName] = CreateRpcClient(rpcClientOptions, controller);
             }
         }
     }
@@ -79,7 +79,7 @@ public class RpcClientFactory
 
     internal object Get(Type type)
     {
-        if (_rpcDict.TryGetValue(type.MetadataToken, out var rpc))
+        if (_rpcDict.TryGetValue(type.FullName, out var rpc))
         {
             return rpc;
         }
@@ -91,7 +91,7 @@ public class RpcClientFactory
 
     internal object GetClient(Type type)
     {
-        if (_rpcClientDict.TryGetValue(type.MetadataToken, out var rpcClient))
+        if (_rpcClientDict.TryGetValue(type.FullName, out var rpcClient))
         {
             return rpcClient;
         }
@@ -111,7 +111,6 @@ internal class RpcHttpClientFactory : IHttpClientFactory
         return _httpClient;
     }
 }
-
 
 public static class RpcClientFactoryExtensions
 {

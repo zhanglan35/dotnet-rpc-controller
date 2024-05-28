@@ -197,7 +197,7 @@ public static class Program
 
 可以参考 [ISampleRpcService.cs](/samples/RpcController.Samples.Shared/ISampleRpcService.cs)
 
-`IRpcController` 拥有几乎和 `ASP.NET Core` 一致的默认行为，因此可以省略参数绑定的特性:
+`IRpcController` 拥有几乎和 `ASP.NET Core Controller` 一致的默认行为，因此可以省略参数绑定的特性:
 
 ``` C#
 [HttpRoute("/sample-rpc")]
@@ -261,9 +261,9 @@ app.UseExceptionHandler(appError =>
 
 ## 扩展性
 
-服务器端的行为与 `ASP.NET Core` 基本一致，可以延用已有的特性进行扩展。
+服务器完全使用 `ASP.NET Core Controller` 实现，支持例如 `Middleware`、`Filter` 等任何功能。
 
-客户端可以实现自定义的 `IRpcClientHook` 进行扩展：
+客户端是基于 `HttpClient` 的，可以注册自定义的 `IRpcClientHook` 进行扩展：
 
 ``` C#
 
@@ -302,3 +302,9 @@ builder.Services.UseRpcClients(rpc =>
     });
 });
 ```
+
+事实上，一些内置的特性也是使用 `IRpcController` 进行实现的：
+    - `ConfigureBaseAddressHook`: 配置服务端地址
+    - `ForwardAuthorizationHook`: 从当前 `HttpContext` 中传递请求 Header 的 Authorization
+    - `ResolveModelBindingHook`: 根据 `IRpcController` 中的方法和参数构建 `HttpRequestMessage`
+可以参考代码库中的相关代码

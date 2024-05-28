@@ -233,7 +233,7 @@ catch (CallResultException ex)
 
 `CallResultException.Response` will provide `HttpResponseMessage` if RPC Server responds.
 
-In many cases you should let the error throw and use `ExceptionHandler`:
+In many cases you should let the error throw and use `ExceptionHandler` to return the response:
 
 ``` C#
 app.UseExceptionHandler(appError =>
@@ -255,17 +255,18 @@ app.UseExceptionHandler(appError =>
 
 ```
 
-If you have a complex `call chain` like A => B => C => D => => E => F, and the F throws an error,
+If you have a complex `call chain` like A => B => C => D => => E => F, then F throws an error,
 you can use this `ExceltionHandler` in each services, the error will be populated to A without any specific process in service BCDE.
 
 ## Extensibility
 
-The extensibility of Server Side follow the same behavior as `ASP.NET Core`, just keep using these features.
+The Server Side is completely implemented by `ASP.NET Core Controller`,
+you can keep using these features like `Middleware`, `Filter`, `Dependency Injection`, etc.
 
-If you need to extend ClientSide, you can register your custom `IRpcClientHook`:
+The Client Side is based on `HttpClient`, you can register your custom `IRpcClientHook` to control the behavior:
+
 
 ``` C#
-
 public abstract class MyRpcClientHook : IRpcClientHook
 {
     public virtual void Configure(HttpClient httpClient)
@@ -301,3 +302,9 @@ builder.Services.UseRpcClients(rpc =>
     });
 });
 ```
+
+In fact, some builtin features also implemented by `IRpcClientHook` like:
+    - `ConfigureBaseAddressHook`: configure Server Side BaseAddress
+    - `ForwardAuthorizationHook`: forward Authorization header from current `HttpContext` if exists
+    - `ResolveModelBindingHook`: resolve method and parameter from `IRpcController` to build `RequestMessage`.
+feel free to refer the source code in this repository.

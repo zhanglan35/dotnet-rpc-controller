@@ -117,6 +117,8 @@ public class RpcServerSideConvention : IApplicationModelConvention
                         parameterModel.BindingInfo = null;
                         parameterModel.ParameterName = parameterInfo.Name;
 
+                        BindingSource? bindingSource = null;
+
                         // Process BindingSource of Parameter
                         // Default behavior should bs same as ASP.NET Core
                         if (bindingSourceAttribute is not null)
@@ -126,11 +128,13 @@ public class RpcServerSideConvention : IApplicationModelConvention
                         else if (IsAssignableTo(parameterType, typeof(IFormFile)))
                         {
                             bindingSourceAttribute = new FromFormAttribute();
+                            bindingSource = BindingSource.FormFile;
                         }
                         else if (IsAssignableTo(parameterType, typeof(IEnumerable<IFormFile>)))
                         {
                             // Use FornForm if parameters is IFormFile[]
                             bindingSourceAttribute = new FromFormAttribute();
+                            bindingSource = BindingSource.FormFile;
                         }
                         else if (
                             rpcRouteAttributes.Any(x => x?.Template?.Contains("{" + parameterInfo.Name + "}") == true) ||
@@ -153,6 +157,11 @@ public class RpcServerSideConvention : IApplicationModelConvention
                         }
 
                         parameterModel.BindingInfo = BindingInfo.GetBindingInfo([bindingSourceAttribute!]);
+
+                        if (bindingSource is not null)
+                        {
+                            parameterModel.BindingInfo!.BindingSource = bindingSource;
+                        }
                     }
                 }
             }

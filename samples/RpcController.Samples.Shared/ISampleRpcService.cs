@@ -81,6 +81,11 @@ public interface ISampleRpcService : IRpcController
     [HttpPost("upload-files")]
     Task<string[]> FromFormFiles(IFormFile[] files);
 
+    /// <summary>
+    /// 下载文件
+    /// </summary>
+    [HttpGet("download-file-content")]
+    Task<FileContentResult> DownloadFile();
 }
 
 public record FunctionFormModel

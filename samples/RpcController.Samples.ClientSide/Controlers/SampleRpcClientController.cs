@@ -29,6 +29,12 @@ public class SampleRpcClientController : ControllerBase
         return  (await _sampleRpcService.FromFormFiles(files)).ToArray();
     }
 
+    [HttpGet("download-file-content")]
+    public async Task<FileContentResult> DownloadFile()
+    {
+        return await _sampleRpcService.DownloadFile();
+    }
+
     [HttpPost("test-default-value")]
     public Dictionary<string, string> FromQueryDefault()
     {

@@ -7,6 +7,7 @@ using RpcController.Client.Core;
 using RpcController.Client.Metadata;
 using Microsoft.AspNetCore.Http;
 using RpcController.Client.Internal;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RpcController.Client;
 
@@ -134,6 +135,17 @@ internal class RpcClientHandler : IRpcClientHandler
             return default;
         }
 
+        if (typeof(FileContentResult).IsAssignableFrom(typeof(T)))
+        {
+            var data = await response.Content.ReadAsByteArrayAsync();
+            var fileContentType = response.Content.Headers.ContentType?.ToString();
+
+            return (T?) (object) new FileContentResult(data, fileContentType)
+            {
+                FileDownloadName = response.Content.Headers.ContentDisposition.FileName,
+            };
+        }
+
         try
         {
             string? content = await response.Content.ReadAsStringAsync() ?? string.Empty;
@@ -158,6 +170,17 @@ internal class RpcClientHandler : IRpcClientHandler
         if (statusCode == HttpStatusCode.NoContent)
         {
             return default;
+        }
+
+        if (typeof(FileContentResult).IsAssignableFrom(type))
+        {
+            var data = await response.Content.ReadAsByteArrayAsync();
+            var fileContentType = response.Content.Headers.ContentType?.ToString();
+
+            return new FileContentResult(data, fileContentType)
+            {
+                FileDownloadName = response.Content.Headers.ContentDisposition.FileName,
+            };
         }
 
         try

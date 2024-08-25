@@ -49,6 +49,16 @@ public class SampleRpcController : ISampleRpcService
         return result.ToArray();
     }
 
+    public Task<FileContentResult> DownloadFile()
+    {
+        return Task.FromResult(
+            new FileContentResult(Encoding.ASCII.GetBytes("Download File Content"), "text/plain")
+            {
+                FileDownloadName = "download.txt"
+            }
+        );
+    }
+
     /// <summary>
     /// define other method
     /// </summary>

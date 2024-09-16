@@ -142,7 +142,7 @@ internal class RpcClientHandler : IRpcClientHandler
 
             return (T?) (object) new FileContentResult(data, fileContentType)
             {
-                FileDownloadName = response.Content.Headers.ContentDisposition.FileName,
+                FileDownloadName = response.Content.Headers.ContentDisposition?.FileName,
             };
         }
 
@@ -179,7 +179,7 @@ internal class RpcClientHandler : IRpcClientHandler
 
             return new FileContentResult(data, fileContentType)
             {
-                FileDownloadName = response.Content.Headers.ContentDisposition.FileName,
+                FileDownloadName = response.Content.Headers.ContentDisposition?.FileName,
             };
         }
 

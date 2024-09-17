@@ -86,6 +86,12 @@ public interface ISampleRpcService : IRpcController
     /// </summary>
     [HttpGet("download-file-content")]
     Task<FileContentResult> DownloadFile();
+
+    /// <summary>
+    /// 下载文件
+    /// </summary>
+    [HttpGet("download-file-content-stream")]
+    Task<FileStreamResult> DownloadFileStream();
 }
 
 public record FunctionFormModel

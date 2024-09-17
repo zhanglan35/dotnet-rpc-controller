@@ -35,6 +35,12 @@ public class SampleRpcClientController : ControllerBase
         return await _sampleRpcService.DownloadFile();
     }
 
+    [HttpGet("download-file-content-stream")]
+    public async Task<FileStreamResult> DownloadFileStream()
+    {
+        return await _sampleRpcService.DownloadFileStream();
+    }
+
     [HttpPost("test-default-value")]
     public Dictionary<string, string> FromQueryDefault()
     {

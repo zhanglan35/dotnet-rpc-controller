@@ -59,6 +59,16 @@ public class SampleRpcController : ISampleRpcService
         );
     }
 
+    public Task<FileStreamResult> DownloadFileStream()
+    {
+        return Task.FromResult(
+            new FileStreamResult(new MemoryStream(Encoding.ASCII.GetBytes("Download File Stream")), "text/plain")
+            {
+                FileDownloadName = "download.txt"
+            }
+        );
+    }
+
     /// <summary>
     /// define other method
     /// </summary>

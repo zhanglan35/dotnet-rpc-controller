@@ -145,6 +145,16 @@ internal class RpcClientHandler : IRpcClientHandler
                 FileDownloadName = response.Content.Headers.ContentDisposition?.FileName,
             };
         }
+        else if (typeof(FileStreamResult).IsAssignableFrom(typeof(T)))
+        {
+            var stream = await response.Content.ReadAsStreamAsync();
+            var fileContentType = response.Content.Headers.ContentType?.ToString();
+
+            return (T?) (object) new FileStreamResult(stream, fileContentType)
+            {
+                FileDownloadName = response.Content.Headers.ContentDisposition?.FileName,
+            };
+        }
 
         try
         {
@@ -178,6 +188,16 @@ internal class RpcClientHandler : IRpcClientHandler
             var fileContentType = response.Content.Headers.ContentType?.ToString();
 
             return new FileContentResult(data, fileContentType)
+            {
+                FileDownloadName = response.Content.Headers.ContentDisposition?.FileName,
+            };
+        }
+        else if (typeof(FileStreamResult).IsAssignableFrom(type))
+        {
+            var stream = await response.Content.ReadAsStreamAsync();
+            var fileContentType = response.Content.Headers.ContentType?.ToString();
+
+            return new FileStreamResult(stream, fileContentType)
             {
                 FileDownloadName = response.Content.Headers.ContentDisposition?.FileName,
             };

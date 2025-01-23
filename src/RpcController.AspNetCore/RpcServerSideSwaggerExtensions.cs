@@ -96,10 +96,12 @@ public static class RpcServerSideSwaggerExtensions
                     var typeName = methodFullName[2..methodFullName.LastIndexOf('.')];
                     var type = types.FirstOrDefault(x => x.Interface.FullName == typeName).Type;
 
-                    if (type is not null)
+                    if (type is null)
                     {
-                        attribute.Value = attribute.Value.Replace(typeName, type.FullName);
+                        continue;
                     }
+
+                    attribute.Value = attribute.Value.Replace(typeName, type.FullName);
 
                     var parameters = member.Elements("param").ToArray();
 

@@ -7,9 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
+
     <!-- 下面这个依赖默认安装的版本提示存在漏洞，必须手动指定版本 -->
+    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+    <PackageReference Include="System.Text.Json" Version="9.0.2" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Json" Version="[6.0.11,)" />
   </ItemGroup>
 
 </Project>

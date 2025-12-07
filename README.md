@@ -304,7 +304,9 @@ builder.Services.UseRpcClients(rpc =>
 ```
 
 事实上，一些内置的特性也是使用 `IRpcController` 进行实现的：
-    - `ConfigureBaseAddressHook`: 配置服务端地址
-    - `ForwardAuthorizationHook`: 从当前 `HttpContext` 中传递请求 Header 的 Authorization
-    - `ResolveModelBindingHook`: 根据 `IRpcController` 中的方法和参数构建 `HttpRequestMessage`
+
+- `ConfigureBaseAddressHook`: 配置服务端地址
+- `ForwardAuthorizationHook`: 从当前 `HttpContext` 中传递请求 Header 的 Authorization
+- `ResolveModelBindingHook`: 根据 `IRpcController` 中的方法和参数构建 `HttpRequestMessage`
+
 可以参考代码库中的相关代码

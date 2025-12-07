@@ -304,7 +304,9 @@ builder.Services.UseRpcClients(rpc =>
 ```
 
 In fact, some builtin features also implemented by `IRpcClientHook` like:
-    - `ConfigureBaseAddressHook`: configure Server Side BaseAddress
-    - `ForwardAuthorizationHook`: forward Authorization header from current `HttpContext` if exists
-    - `ResolveModelBindingHook`: resolve method and parameter from `IRpcController` to build `RequestMessage`.
+
+- `ConfigureBaseAddressHook`: configure Server Side BaseAddress
+- `ForwardAuthorizationHook`: forward Authorization header from current `HttpContext` if exists
+- `ResolveModelBindingHook`: resolve method and parameter from `IRpcController` to build `RequestMessage`.
+
 feel free to refer the source code in this repository.
